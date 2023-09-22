@@ -118,6 +118,7 @@ struct _c2_l {
 		C2_L_POVREDIR,
 		C2_L_PARGB,
 		C2_L_PFOCUSED,
+		C2_L_POCCLUDING,
 		C2_L_PWMWIN,
 		C2_L_PBSHAPED,
 		C2_L_PROUNDED,
@@ -196,6 +197,7 @@ static const c2_predef_t C2_PREDEFS[] = {
     [C2_L_POVREDIR] = {"override_redirect", C2_L_TCARDINAL, 0},
     [C2_L_PARGB] = {"argb", C2_L_TCARDINAL, 0},
     [C2_L_PFOCUSED] = {"focused", C2_L_TCARDINAL, 0},
+    [C2_L_POCCLUDING] = {"occluding_a_window", C2_L_TCARDINAL, 0},
     [C2_L_PWMWIN] = {"wmwin", C2_L_TCARDINAL, 0},
     [C2_L_PBSHAPED] = {"bounding_shaped", C2_L_TCARDINAL, 0},
     [C2_L_PROUNDED] = {"rounded_corners", C2_L_TCARDINAL, 0},
@@ -1387,6 +1389,9 @@ static inline void c2_match_once_leaf(session_t *ps, const struct managed_win *w
 			case C2_L_PARGB: predef_target = win_has_alpha(w); break;
 			case C2_L_PFOCUSED:
 				predef_target = win_is_focused_raw(ps, w);
+				break;
+			case C2_L_POCCLUDING:
+				predef_target = w->prev_trans != NULL;
 				break;
 			case C2_L_PWMWIN: predef_target = w->wmwin; break;
 			case C2_L_PBSHAPED: predef_target = w->bounding_shaped; break;
